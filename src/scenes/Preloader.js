@@ -1,46 +1,79 @@
-import { Scene } from 'phaser';
+// src/scenes/Preloader.js
+import Phaser from 'phaser';
+import { GEM_TYPES, ASSETS_PATH, AssetKeys, GEM_FRAME_COUNT } from '../constants';
 
-export class Preloader extends Scene
-{
-    constructor ()
-    {
+export class Preloader extends Phaser.Scene {
+    constructor() {
         super('Preloader');
     }
 
-    init ()
-    {
-        //  We loaded this image in our Boot Scene, so we can display it here
-        this.add.image(512, 384, 'background');
+    preload() {
+        this.showLoadingProgress();
 
-        //  A simple progress bar. This is the outline of the bar.
-        this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
+        // Load common assets
+        this.load.image(AssetKeys.LOGO, `${ASSETS_PATH}logo.png`);
+        this.load.image(AssetKeys.BACKGROUND, `${ASSETS_PATH}background.png`);
 
-        //  This is the progress bar itself. It will increase in size from the left based on the % of progress.
-        const bar = this.add.rectangle(512-230, 384, 4, 28, 0xffffff);
+        // Load Gem Assets
+        GEM_TYPES.forEach(type => {
+            for (let i = 0; i < GEM_FRAME_COUNT; i++) {
+                const key = AssetKeys.GEM_TEXTURE(type, i);
+                const path = `${ASSETS_PATH}${type}_gem_${i}.png`;
+                this.load.image(key, path);
+            }
+        });
 
-        //  Use the 'progress' event emitted by the LoaderPlugin to update the loading bar
-        this.load.on('progress', (progress) => {
+        // Load sounds if/when added
+        // this.load.audio(AssetKeys.SOUND_MATCH, [`${ASSETS_PATH}sounds/match.ogg`, `${ASSETS_PATH}sounds/match.mp3`]);
+    }
 
-            //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
-            bar.width = 4 + (460 * progress);
+    showLoadingProgress() {
+        const { width, height } = this.cameras.main;
+        const progressBar = this.add.graphics();
+        const progressBox = this.add.graphics();
+        progressBox.fillStyle(0x333333, 0.8); // Darker gray
+        progressBox.fillRect(width * 0.2, height * 0.5 - 25, width * 0.6, 50);
 
+        const loadingText = this.make.text({
+            x: width / 2, y: height / 2 - 50, text: 'Loading...',
+            style: { font: '24px Arial', color: '#ffffff' }
+        }).setOrigin(0.5);
+
+        const percentText = this.make.text({
+            x: width / 2, y: height / 2, text: '0%',
+            style: { font: '20px Arial', color: '#ffffff' }
+        }).setOrigin(0.5);
+
+        const assetText = this.make.text({
+            x: width / 2, y: height / 2 + 50, text: '',
+            style: { font: '16px Arial', color: '#dddddd' }
+        }).setOrigin(0.5);
+
+        this.load.on('progress', (value) => {
+            percentText.setText(`${parseInt(value * 100)}%`);
+            progressBar.clear();
+            progressBar.fillStyle(0xeeeeee, 1); // Lighter gray bar
+            progressBar.fillRect(width * 0.2 + 10, height * 0.5 - 15, (width * 0.6 - 20) * value, 30);
+        });
+
+        this.load.on('fileprogress', (file) => {
+            // Limit asset text length
+            const keyName = file.key.length > 30 ? file.key.substring(0, 27) + '...' : file.key;
+             assetText.setText(`Loading: ${keyName}`);
+        });
+
+        this.load.on('complete', () => {
+            progressBar.destroy();
+            progressBox.destroy();
+            loadingText.destroy();
+            percentText.destroy();
+            assetText.destroy();
+            console.log("Preloader complete.");
         });
     }
 
-    preload ()
-    {
-        //  Load the assets for the game - Replace with your own assets
-        this.load.setPath('assets');
-
-        this.load.image('logo', 'logo.png');
-    }
-
-    create ()
-    {
-        //  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
-        //  For example, you can define global animations here, so we can use them in other scenes.
-
-        //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
+    create() {
+        console.log("Preloader: Starting MainMenu");
         this.scene.start('MainMenu');
     }
 }

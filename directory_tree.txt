@@ -1,0 +1,77 @@
+﻿Directory Structure for: C:\phaser\my-phaser-game\april-phaser
+Generated on: 04/07/2025 22:27:50
+----------------------------------------
+
++-- public
++-- src
++-- webpack
++-- .babelrc
++-- index.html
++-- log.js
++-- package-lock.json
++-- package.json
++-- README.md
++-- screenshot.png
+  +-- assets
+  +-- favicon.png
+  +-- style.css
+    +-- bg.png
+    +-- black_gem_0.png
+    +-- black_gem_1.png
+    +-- black_gem_2.png
+    +-- black_gem_3.png
+    +-- black_gem_4.png
+    +-- black_gem_5.png
+    +-- black_gem_6.png
+    +-- black_gem_7.png
+    +-- blue_gem_0.png
+    +-- blue_gem_1.png
+    +-- blue_gem_2.png
+    +-- blue_gem_3.png
+    +-- blue_gem_4.png
+    +-- blue_gem_5.png
+    +-- blue_gem_6.png
+    +-- blue_gem_7.png
+    +-- green_gem_0.png
+    +-- green_gem_1.png
+    +-- green_gem_2.png
+    +-- green_gem_3.png
+    +-- green_gem_4.png
+    +-- green_gem_5.png
+    +-- green_gem_6.png
+    +-- green_gem_7.png
+    +-- logo.png
+    +-- orange_gem_0.png
+    +-- orange_gem_1.png
+    +-- orange_gem_2.png
+    +-- orange_gem_3.png
+    +-- orange_gem_4.png
+    +-- orange_gem_5.png
+    +-- orange_gem_6.png
+    +-- orange_gem_7.png
+    +-- red_gem_0.png
+    +-- red_gem_1.png
+    +-- red_gem_2.png
+    +-- red_gem_3.png
+    +-- red_gem_4.png
+    +-- red_gem_5.png
+    +-- red_gem_6.png
+    +-- red_gem_7.png
+    +-- white_gem_0.png
+    +-- white_gem_1.png
+    +-- white_gem_2.png
+    +-- white_gem_3.png
+    +-- white_gem_4.png
+    +-- white_gem_5.png
+    +-- white_gem_6.png
+    +-- white_gem_7.png
+  +-- scenes
+  +-- main.js
+    +-- Boot.js
+    +-- Game.js
+    +-- GameOver.js
+    +-- MainMenu.js
+    +-- Preloader.js
+  +-- config.js
+  +-- config.prod.js
+
